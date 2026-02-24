@@ -32,5 +32,5 @@
   └── /frontend         # واجهات المستخدم (Static Files)
         ├── /css
         ├── /js
-        └── *.html
+        └── /.html
 ```
