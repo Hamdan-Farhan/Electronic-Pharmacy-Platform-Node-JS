@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - المدير</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">صيدليتي - الإدارة</a>
+            <div class="ms-auto d-flex align-items-center">
+                <span class="text-white me-3 d-none d-md-inline" id="admin-name-display">مرحباً، المدير</span>
+                <button class="btn btn-outline-light btn-sm" onclick="logout()">تسجيل الخروج</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block dashboard-sidebar p-0">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showSection('stats-section')">
+                                <i class="fas fa-chart-line me-2"></i> الإحصائيات
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('medicines-admin-section')">
+                                <i class="fas fa-pills me-2"></i> إدارة الأدوية
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('users-admin-section')">
+                                <i class="fas fa-users me-2"></i> إدارة المستخدمين
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('orders-admin-section')">
+                                <i class="fas fa-shopping-cart me-2"></i> إدارة الطلبات
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-10 ms-sm-auto px-md-4 py-4">
+                <!-- Stats Section -->
+                <section id="stats-section">
+                    <h2 class="mb-4">نظرة عامة</h2>
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-4">
+                            <div class="card bg-primary text-white p-3">
+                                <h5>إجمالي المستخدمين</h5>
+                                <h2 id="stat-users">0</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-success text-white p-3">
+                                <h5>إجمالي الأدوية</h5>
+                                <h2 id="stat-medicines">0</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-info text-white p-3">
+                                <h5>إجمالي الطلبات</h5>
+                                <h2 id="stat-orders">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Medicines Admin Section -->
+                <section id="medicines-admin-section" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>إدارة الأدوية</h2>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMedicineModal">
+                            <i class="fas fa-plus me-1"></i> إضافة دواء جديد
+                        </button>
+                    </div>
+                    <div class="table-responsive bg-white p-3 rounded shadow-sm">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>الصورة</th>
+                                    <th>الاسم</th>
+                                    <th>السعر</th>
+                                    <th>المخزون</th>
+                                    <th>الفئة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-medicines-list">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Users Admin Section -->
+                <section id="users-admin-section" style="display: none;">
+                    <h2 class="mb-4">إدارة المستخدمين</h2>
+                    <div class="table-responsive bg-white p-3 rounded shadow-sm">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>الاسم</th>
+                                    <th>البريد الإلكتروني</th>
+                                    <th>الدور</th>
+                                    <th>تاريخ الانضمام</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-users-list">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Orders Admin Section -->
+                <section id="orders-admin-section" style="display: none;">
+                    <h2 class="mb-4">إدارة جميع الطلبات</h2>
+                    <div class="table-responsive bg-white p-3 rounded shadow-sm">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>المستخدم</th>
+                                    <th>الإجمالي</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-orders-list">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add/Edit Medicine Modal -->
+    <div class="modal fade" id="addMedicineModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="medicineModalTitle">إضافة دواء جديد</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="medicine-form">
+                        <input type="hidden" id="medicine-id">
+                        <div class="mb-3">
+                            <label class="form-label">اسم الدواء</label>
+                            <input type="text" id="med-name" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الوصف</label>
+                            <textarea id="med-description" class="form-control" required></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">السعر</label>
+                                <input type="number" id="med-price" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">المخزون</label>
+                                <input type="number" id="med-stock" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الفئة</label>
+                            <input type="text" id="med-category" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الشركة المصنعة</label>
+                            <input type="text" id="med-manufacturer" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">تاريخ الانتهاء</label>
+                            <input type="date" id="med-expiry" class="form-control" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" id="med-prescription" class="form-check-input">
+                            <label class="form-check-label">يتطلب وصفة طبية</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">حفظ الدواء</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Photo Modal -->
+    <div class="modal fade" id="uploadPhotoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تحديث صورة الدواء</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="upload-photo-form">
+                        <input type="hidden" id="photo-med-id">
+                        <div class="mb-3">
+                            <label class="form-label">اختر صورة</label>
+                            <input type="file" id="med-photo-file" class="form-control" required accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">رفع الصورة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

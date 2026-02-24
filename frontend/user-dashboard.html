@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - المستخدم</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">صيدليتي</a>
+            <div class="ms-auto d-flex align-items-center">
+                <span class="text-white me-3 d-none d-md-inline" id="user-name-display">مرحباً، مستخدم</span>
+                <button class="btn btn-light btn-sm" onclick="logout()">تسجيل الخروج</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block dashboard-sidebar p-0">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showSection('medicines-section')">
+                                <i class="fas fa-pills me-2"></i> تصفح الأدوية
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('orders-section')">
+                                <i class="fas fa-shopping-bag me-2"></i> طلباتي
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('prescriptions-section')">
+                                <i class="fas fa-file-prescription me-2"></i> وصفاتي الطبية
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('profile-section')">
+                                <i class="fas fa-user-cog me-2"></i> الملف الشخصي
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-10 ms-sm-auto px-md-4 py-4">
+                <!-- Medicines Section -->
+                <section id="medicines-section">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>الأدوية المتاحة</h2>
+                        <div class="input-group w-50">
+                            <input type="text" id="search-input" class="form-control" placeholder="ابحث عن دواء...">
+                            <button class="btn btn-primary" onclick="searchMedicines()"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="row g-4" id="user-medicines-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Orders Section -->
+                <section id="orders-section" style="display: none;">
+                    <h2 class="mb-4">طلباتي السابقة</h2>
+                    <div class="table-responsive bg-white p-3 rounded shadow-sm">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>التاريخ</th>
+                                    <th>الإجمالي</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-orders-list">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Prescriptions Section -->
+                <section id="prescriptions-section" style="display: none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>وصفاتي الطبية</h2>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadPrescriptionModal">
+                            <i class="fas fa-upload me-1"></i> رفع وصفة جديدة
+                        </button>
+                    </div>
+                    <div class="row g-4" id="user-prescriptions-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Profile Section -->
+                <section id="profile-section" style="display: none;">
+                    <h2 class="mb-4">إعدادات الحساب</h2>
+                    <div class="card col-md-6">
+                        <div class="card-body">
+                            <form id="profile-form">
+                                <div class="mb-3">
+                                    <label class="form-label">الاسم</label>
+                                    <input type="text" id="profile-name" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">البريد الإلكتروني</label>
+                                    <input type="email" id="profile-email" class="form-control" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">نوع الحساب</label>
+                                    <input type="text" id="profile-role" class="form-control" readonly>
+                                </div>
+                                <p class="text-muted small">ملاحظة: لتعديل البيانات الأساسية يرجى التواصل مع الإدارة.</p>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Upload Prescription Modal -->
+    <div class="modal fade" id="uploadPrescriptionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">رفع وصفة طبية</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="upload-prescription-form">
+                        <div class="mb-3">
+                            <label class="form-label">اختر صورة الوصفة (JPG, PNG)</label>
+                            <input type="file" class="form-control" id="prescription-file" required accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">رفع الآن</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">إتمام الطلب</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="order-item-details" class="mb-3"></div>
+                    <form id="place-order-form">
+                        <input type="hidden" id="order-medicine-id">
+                        <div class="mb-3">
+                            <label class="form-label">الكمية</label>
+                            <input type="number" id="order-quantity" class="form-control" value="1" min="1">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">عنوان الشحن</label>
+                            <textarea id="order-address" class="form-control" required placeholder="أدخل عنوانك بالتفصيل"></textarea>
+                        </div>
+                        <div class="mb-3" id="prescription-select-div" style="display: none;">
+                            <label class="form-label">اختر وصفة طبية معتمدة</label>
+                            <select id="order-prescription-id" class="form-select"></select>
+                            <small class="text-danger">هذا الدواء يتطلب وصفة طبية معتمدة.</small>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">تأكيد الطلب</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/user.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - الطبيب</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">صيدليتي - قسم الأطباء</a>
+            <div class="ms-auto d-flex align-items-center">
+                <span class="text-white me-3 d-none d-md-inline" id="doctor-name-display">مرحباً، دكتور</span>
+                <button class="btn btn-light btn-sm" onclick="logout()">تسجيل الخروج</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block dashboard-sidebar p-0">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showSection('prescriptions-review-section')">
+                                <i class="fas fa-file-medical me-2"></i> مراجعة الوصفات
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('orders-review-section')">
+                                <i class="fas fa-clipboard-list me-2"></i> إدارة الطلبات
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-10 ms-sm-auto px-md-4 py-4">
+                <!-- Prescriptions Review Section -->
+                <section id="prescriptions-review-section">
+                    <h2 class="mb-4">الوصفات الطبية المعلقة</h2>
+                    <div class="row g-4" id="doctor-prescriptions-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Orders Review Section -->
+                <section id="orders-review-section" style="display: none;">
+                    <h2 class="mb-4">إدارة طلبات الأدوية</h2>
+                    <div class="table-responsive bg-white p-3 rounded shadow-sm">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>المستخدم</th>
+                                    <th>الأدوية</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="doctor-orders-list">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div class="modal fade" id="reviewModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">مراجعة الوصفة الطبية</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img id="review-img" src="" class="img-fluid rounded border" alt="Prescription">
+                        </div>
+                        <div class="col-md-6">
+                            <form id="review-form">
+                                <input type="hidden" id="review-id">
+                                <div class="mb-3">
+                                    <label class="form-label">القرار</label>
+                                    <select id="review-status" class="form-select" required>
+                                        <option value="approved">قبول الوصفة</option>
+                                        <option value="rejected">رفض الوصفة</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">ملاحظات الطبيب</label>
+                                    <textarea id="review-notes" class="form-control" rows="4" placeholder="أدخل ملاحظاتك هنا..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">حفظ القرار</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/doctor.js"></script>
+</body>
+</html>
